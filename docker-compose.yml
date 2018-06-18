@@ -1,1 +1,38 @@
+version: '3.3'
 
+services:
+   compose-mssql:
+     image: microsoft/mssql-server-linux:2017-CU5
+     volumes:
+       - db_data:/var/opt/mssql/data
+    environment:
+      - ACCEPT_EULA=Y
+      - SA_PASSWORD=Password123
+      - MSSQL_PID=Express
+    ports:
+      - "62000:1433"
+
+   compose-webapi:
+     depends_on:
+       - compose-mssql
+     image: microsoft/dotnet:2.0-sdk
+     ports:
+       - "62001:80"
+     environment:
+
+   compose-fizzbuzz-gen:
+     depends_on:
+       - compose-webapi
+     image: 
+     environment:
+     
+   compose-angular-front-end:
+     depends_on:
+       - compose-fizzbuzz-gen
+     image: 
+     environment:   
+    ports:
+      - "62002:80"     
+
+volumes:
+    db_data:
