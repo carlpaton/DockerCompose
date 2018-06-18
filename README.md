@@ -1,4 +1,4 @@
-# DockerCompose
+# Docker Compose
 Collaborative project to demonstrate the power of docker compose.
 
 The project is made up of the following containers:
