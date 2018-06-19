@@ -1,10 +1,11 @@
 version: '3'
 services:
 
-  comp-mssql:
+  db:
+    container_name: "compose-mssql"
     image: "microsoft/mssql-server-linux:2017-CU5"
-    volumes: 
-      - db_data:/var/opt/mssql/data
+    #volumes: 
+    #  - db_data:/var/opt/mssql/data
     environment: 
       - ACCEPT_EULA=Y 
       - SA_PASSWORD=Password123 
@@ -12,19 +13,35 @@ services:
     ports: 
       - "62000:1433"
 
-  comp-flywaycopy:
+  flyway-copy:
+    container_name: "compose-flywaycopy"  
     build: ./flyway
+    command: cp /data/ComposeDemo/V1.0.1__fizzbuzz_event.sql /flyway/sql/V1.0.1__fizzbuzz_event.sql    
     depends_on: 
-      - comp-mssql        
+      - db        
   
-  comp-flyway:
+  flyway-baseline:
+    container_name: "compose-flywaybaseline"    
     image: "boxfuse/flyway:5.1"
-    command: -url=jdbc:sqlserver://comp-mssql -schemas=myschema -user=sa -password=Password123 migrate
+    command: -url=jdbc:sqlserver://compose-mssql -schemas=fizzbuzz -user=sa -password=Password123 baseline
+    depends_on: 
+      - flyway-copy
+
+  flyway-migrate:
+    container_name: "compose-flywaymigrate"    
+    image: "boxfuse/flyway:5.1"
+    command: -url=jdbc:sqlserver://compose-mssql -schemas=fizzbuzz -user=sa -password=Password123 migrate
     volumes: 
       - flyway_data:/flyway/sql
     depends_on: 
-      - comp-flywaycopy             
+      - flyway-baseline      
+  
+  #WEB API
+
+  #FIZZBUZZ TO GEN DATA
+
+  #FRONT ENDS TO QUERY DATA
 
 volumes:
-    db_data:
+    #db_data:
     flyway_data:    
