@@ -1,40 +1,42 @@
-version: '3'
+version: '3.6'
 services:
 
-  db:
-    container_name: "compose-mssql"
-    image: "microsoft/mssql-server-linux:2017-CU5"
-    #volumes: 
-    #  - db_data:/var/opt/mssql/data
-    environment: 
-      - ACCEPT_EULA=Y 
-      - SA_PASSWORD=Password123 
-      - MSSQL_PID=Express
-    ports: 
-      - "62000:1433"
+  #db:
+  #  container_name: "compose-mssql"
+  #  image: "microsoft/mssql-server-linux:2017-CU5"
+  #  environment: 
+  #    - ACCEPT_EULA=Y 
+  #    - SA_PASSWORD=Password123 
+  #    - MSSQL_PID=Express
+  #  ports: 
+  #    - "62000:1433"
 
   flyway-copy:
     container_name: "compose-flywaycopy"  
     build: ./flyway
-    command: cp /data/ComposeDemo/V1.0.1__fizzbuzz_event.sql /flyway/sql/V1.0.1__fizzbuzz_event.sql    
-    depends_on: 
-      - db        
-  
-  flyway-baseline:
-    container_name: "compose-flywaybaseline"    
-    image: "boxfuse/flyway:5.1"
-    command: -url=jdbc:sqlserver://compose-mssql -schemas=fizzbuzz -user=sa -password=Password123 baseline
-    depends_on: 
-      - flyway-copy
-
-  flyway-migrate:
-    container_name: "compose-flywaymigrate"    
-    image: "boxfuse/flyway:5.1"
-    command: -url=jdbc:sqlserver://compose-mssql -schemas=fizzbuzz -user=sa -password=Password123 migrate
+    image: flywaycopy_image
     volumes: 
-      - flyway_data:/flyway/sql
-    depends_on: 
-      - flyway-baseline      
+      - flyway_data:/flyway/sql    
+  #  depends_on: 
+  #    - db        
+  
+  #flyway-baseline:
+  #  container_name: "compose-flywaybaseline"    
+  #  image: "boxfuse/flyway:5.1"
+  #  command: -url=jdbc:sqlserver://compose-mssql -schemas=fizzbuzz -user=sa -password=Password123 baseline
+  #  depends_on: 
+  #    - flyway-copy
+  #    - db       
+
+  #flyway-migrate:
+  #  container_name: "compose-flywaymigrate"    
+  #  image: "boxfuse/flyway:5.1"
+  #  command: -url=jdbc:sqlserver://compose-mssql -schemas=fizzbuzz -user=sa -password=Password123 migrate
+  #  volumes: 
+  #    - flyway_data:/flyway/sql
+  #  depends_on: 
+  #    - flyway-baseline   
+  #    - db          
   
   #WEB API
 
@@ -43,5 +45,4 @@ services:
   #FRONT ENDS TO QUERY DATA
 
 volumes:
-    #db_data:
     flyway_data:    
