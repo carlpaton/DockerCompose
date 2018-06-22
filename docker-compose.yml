@@ -1,43 +1,45 @@
 version: '3.6'
 services:
 
-  #db:
-  #  container_name: "compose-mssql"
-  #  image: "microsoft/mssql-server-linux:2017-CU5"
-  #  environment: 
-  #    - ACCEPT_EULA=Y 
-  #    - SA_PASSWORD=Password123 
-  #    - MSSQL_PID=Express
-  #  ports: 
-  #    - "62000:1433"
+  db:
+    container_name: "compose-mssql"
+    image: "microsoft/mssql-server-linux:2017-CU5"
+    environment:
+      - ACCEPT_EULA=Y
+      - SA_PASSWORD=Password123
+      - MSSQL_PID=Express
+    ports:
+      - "62000:1433"
 
-  flyway-copy:
-    container_name: "compose-flywaycopy"  
-    build: ./flyway
-    image: flywaycopy_image
-    volumes: 
-      - flyway_data:/flyway/sql    
-  #  depends_on: 
-  #    - db        
-  
-  #flyway-baseline:
-  #  container_name: "compose-flywaybaseline"    
-  #  image: "boxfuse/flyway:5.1"
-  #  command: -url=jdbc:sqlserver://compose-mssql -schemas=fizzbuzz -user=sa -password=Password123 baseline
-  #  depends_on: 
-  #    - flyway-copy
-  #    - db       
+  git-clone:
+    container_name: "compose-flyway-git-clone"
+    build: ./flyway-git-clone
+    image: flyway_git_clone
+    volumes:
+      - flyway_git_data:/git_data
+      - flyway_data:/flyway/sql
+    depends_on:
+      - db
 
-  #flyway-migrate:
-  #  container_name: "compose-flywaymigrate"    
-  #  image: "boxfuse/flyway:5.1"
-  #  command: -url=jdbc:sqlserver://compose-mssql -schemas=fizzbuzz -user=sa -password=Password123 migrate
-  #  volumes: 
-  #    - flyway_data:/flyway/sql
-  #  depends_on: 
-  #    - flyway-baseline   
-  #    - db          
-  
+  baseline:
+    container_name: "compose-flyway-baseline"
+    image: "boxfuse/flyway:5.1"
+    command: -url=jdbc:sqlserver://compose-mssql -schemas=fizzbuzz -user=sa -password=Password123 baseline
+    depends_on:
+      - git-clone
+      - db
+
+  migrate:
+    container_name: "compose-flyway-migrate"
+    image: "boxfuse/flyway:5.1"
+    command: -url=jdbc:sqlserver://compose-mssql -schemas=fizzbuzz -user=sa -password=Password123 migrate
+    volumes:
+      - flyway_data:/flyway/sql
+    depends_on:
+      - git-clone
+      - baseline
+      - db
+
   #WEB API
 
   #FIZZBUZZ TO GEN DATA
@@ -45,4 +47,5 @@ services:
   #FRONT ENDS TO QUERY DATA
 
 volumes:
-    flyway_data:    
+    flyway_data:
+    flyway_git_data:
