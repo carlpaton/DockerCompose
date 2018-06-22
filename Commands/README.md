@@ -26,25 +26,32 @@ Mountpoint = /var/lib/docker/volumes/compose_flyway_data/_data
 # Manually Run Alpine (Copy Container)
 
 * spin up docker container
+
 docker run -i -v /test-vol --name=voltainer alpine:3.7 /bin/sh
 
-* Update/Upgrade & install GIT
+* Update/Upgrade then install GIT
+
 apk update
 apk upgrade
 apk add --no-cache bash git openssh
 
 * Create/List directory
+
 mkdir data
 ls
 
 * Clone GIT
+
 git clone https://github.com/charleyza/SQLStatements.git data
 
 * Copy to docker volume
+
 cp data/ComposeDemo/*.sql /test-vol
 
 * List installed packages
+
 apk info
 
 * Exit interactive session
+
 CTRL D
