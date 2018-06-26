@@ -5,7 +5,7 @@ To spin up the entire echo-system run ./compose.sh
 
 This script makes use of the following containers/steps:
 
-1. compose-db
+## compose-db
 * postgres:9.6-alpine
 
 NOTE:
