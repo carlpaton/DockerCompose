@@ -24,21 +24,18 @@ services:
   baseline:
     container_name: "compose-flyway-baseline"
     image: "boxfuse/flyway:5.1"
-    command: -url=jdbc:sqlserver://compose-mssql -schemas=fizzbuzz -user=sa -password=Password123 baseline
+    command: -url=jdbc:sqlserver://compose-mssql:1433;databaseName=master -schemas=dbo -user=sa -password=Password123 baseline
     depends_on:
       - git-clone
-      - db
 
   migrate:
     container_name: "compose-flyway-migrate"
     image: "boxfuse/flyway:5.1"
-    command: -url=jdbc:sqlserver://compose-mssql -schemas=fizzbuzz -user=sa -password=Password123 migrate
+    command: -url=jdbc:sqlserver://compose-mssql:1433;databaseName=master -schemas=dbo -user=sa -password=Password123 migrate
     volumes:
       - flyway_data:/flyway/sql
     depends_on:
-      - git-clone
       - baseline
-      - db
 
   #WEB API
 
