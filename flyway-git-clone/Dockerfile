@@ -5,4 +5,4 @@ RUN apk update && apk upgrade && \
 
 RUN git clone https://github.com/charleyza/SQLStatements.git git_data && \
     mkdir -p flyway/sql && \
-    cp git_data/ComposeDemo/mssql/*.sql flyway/sql/
+    cp git_data/mssql/ComposeDemo/*.sql flyway/sql/
