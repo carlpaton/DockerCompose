@@ -1,14 +1,31 @@
 # Docker Compose
-Collaborative project to demonstrate the power of docker compose.
+Collaborative project to demonstrate the power of docker compose and Infrastructure as code (IaC)
 
-The project is made up of the following containers:
+To spin up the entire echo-system run ./compose.sh 
 
-1. compose-mssql
-* microsoft/mssql-server-linux:2017-CU5
+This script makes use of the following containers/steps:
+
+1. compose-db
+* postgres:9.6-alpine
+
+NOTE:
+
+The db container is first run in detached mode, this is to give the database server a chance to start up.
+Docker documentation says applications need to be resilient and have their own re retry mechanisms built in so they will not be adding any 'wait' in the compose process.
+
+~ https://docs.docker.com/compose/compose-file/#depends_on
+~ https://docs.docker.com/compose/startup-order/
+
+Flyway simply states we must start the database and wait for it -_-
+
+~ https://store.docker.com/community/images/boxfuse/flyway
 
 2. compose-flyway-git-clone
-* clones SQL scripts from https://github.com/charleyza/SQLStatements/tree/master/ComposeDemo
+* flyway-git-clone/Dockerfile
+* clones SQL scripts from https://github.com/charleyza/SQLStatements/tree/master/
 * copys them to a volume used by flyway
+
+To create new layers it runs as 'docker-compose build --no-cache'
 
 3. compose-flyway-baseline
 * base lines the database

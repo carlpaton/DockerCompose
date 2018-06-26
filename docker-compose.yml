@@ -1,15 +1,13 @@
-version: '3.6'
+version: "3.6"
 services:
 
   db:
-    container_name: "compose-mssql"
-    image: "microsoft/mssql-server-linux:2017-CU5"
+    container_name: "compose-db"
+    image: "postgres:9.6-alpine"
     environment:
-      - ACCEPT_EULA=Y
-      - SA_PASSWORD=Password123
-      - MSSQL_PID=Express
+      - POSTGRES_PASSWORD=postgres
     ports:
-      - "62000:1433"
+      - "54320:5432"
 
   git-clone:
     container_name: "compose-flyway-git-clone"
@@ -24,14 +22,14 @@ services:
   baseline:
     container_name: "compose-flyway-baseline"
     image: "boxfuse/flyway:5.1"
-    command: -url=jdbc:sqlserver://compose-mssql:1433;databaseName=master -schemas=dbo -user=sa -password=Password123 baseline
+    command: -url=jdbc:postgresql://compose-db:5432/postgres -schemas=public -user=postgres -password=postgres baseline
     depends_on:
       - git-clone
 
   migrate:
     container_name: "compose-flyway-migrate"
     image: "boxfuse/flyway:5.1"
-    command: -url=jdbc:sqlserver://compose-mssql:1433;databaseName=master -schemas=dbo -user=sa -password=Password123 migrate
+    command: -url=jdbc:postgresql://compose-db:5432/postgres -schemas=public -user=postgres -password=postgres migrate
     volumes:
       - flyway_data:/flyway/sql
     depends_on:
