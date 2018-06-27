@@ -37,7 +37,8 @@ To create new layers it runs as 'docker-compose build --no-cache'
 * dbo.fizzbuzz_data ~ This links to fizzbuzz_event.id and stores the generated data. Example; 1 2 FIZZ 4 BUZZ FIZZ 7 8 FIZZ ... ect
 
 ## compose-web-api (TODO)
-* https://store.docker.com/community/images/relatable/postgrest
+* https://postgrest.org/en/v5.0/install.html#docker
+* https://www.postgresql.org/docs/9.6/static/index.html
 
 ## compose-fizzbuzz-generator (TODO)
 * Generates the data, calls the WEB API PUT method
