@@ -44,7 +44,38 @@ To create new layers it runs as 'docker-compose build --no-cache'
 * https://www.postgresql.org/docs/9.6/static/index.html
 * https://store.docker.com/community/images/postgrest/postgrest
 
+Testing & Dev
+
 * from my notebook I could connect to http://192.168.31.129:3000/
+* https://postgrest.org/en/v5.0/api.html#insertions-updates
+
+### fizzbuzz_event
+
+To insert:
+
+* POST : http://192.168.31.129:3000/fizzbuzz_event
+* HEADER : Content-Type=application/json
+* BODY: { "lower_bound": "1", "upper_bound": "1", "fizz_at": "3", "buzz_at": "5" }
+
+To read the record and get its ID
+
+* GET : http://192.168.31.129:3000/fizzbuzz_event?order=id.desc&limit=1
+
+Example response
+
+[{"id":3,"lower_bound":1,"upper_bound":1,"fizz_at":3,"buzz_at":5,"insert_date":"2018-06-27T12:38:50.016657"}]
+
+### fizzbuzz_data
+
+* POST : http://192.168.31.129:3000/fizzbuzz_data
+* HEADER : Content-Type=application/json
+* BODY: 
+
+[
+  { "fizzbuzz_event_id": "1", "val": "1" },
+  { "fizzbuzz_event_id": "1", "val": "2" },
+  { "fizzbuzz_event_id": "1", "val": "FIZZ" }
+]
 
 ## compose-fizzbuzz-generator (TODO)
 * Generates the data, calls the WEB API PUT method

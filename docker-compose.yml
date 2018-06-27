@@ -47,7 +47,16 @@ services:
     depends_on:
       - db
 
-  #FIZZBUZZ TO GEN DATA
+  fizzbuzz-gen:
+    container_name: "compose-fizzbuzz-gen"  
+    image: carlpaton/fizzbuzz:v1.0.0
+    environment:
+      lowerBound: 1
+      upperBound: 100
+      fizzAt: 3
+      buzzAt: 5      
+    depends_on:
+      - api
 
   #FRONT ENDS TO QUERY DATA
 

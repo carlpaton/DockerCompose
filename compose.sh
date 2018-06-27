@@ -16,8 +16,11 @@ docker-compose build --no-cache
 #### up-start-db.sh
 sudo docker-compose up -d db
 #docker-compose logs -f #watch logs
-echo " ... wait for 10 seconds for db to start"
-sleep 10
+echo " ... wait for 5 seconds for db to start"
+sleep 5
+sudo docker-compose up -d api
+echo " ... wait for 5 seconds for api to start"
+sleep 5
 
 
 #### up.sh (runs attached)
