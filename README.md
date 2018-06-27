@@ -3,10 +3,13 @@ Collaborative project to demonstrate the power of docker compose and Infrastruct
 
 To spin up the entire echo-system run ./compose.sh 
 
-This script makes use of the following containers/steps:
+Once you have run ./compose.sh above and then stop the services for what ever reason you can start just the Database and API with ./start.sh
+
+This script ./compose.sh  makes use of the following containers/steps:
 
 ## compose-db
 * postgres:9.6-alpine
+* from my notebook I could connect to http://192.168.31.129:54320/
 
 NOTE:
 
@@ -36,9 +39,12 @@ To create new layers it runs as 'docker-compose build --no-cache'
 * dbo.fizzbuzz_event ~ This keeps the parameters the applications data was generated with. Example; lowerBound=1 upperBound=100 fizzAt=3 buzzAt=5
 * dbo.fizzbuzz_data ~ This links to fizzbuzz_event.id and stores the generated data. Example; 1 2 FIZZ 4 BUZZ FIZZ 7 8 FIZZ ... ect
 
-## compose-web-api (TODO)
+## compose-api (postgrest)
 * https://postgrest.org/en/v5.0/install.html#docker
 * https://www.postgresql.org/docs/9.6/static/index.html
+* https://store.docker.com/community/images/postgrest/postgrest
+
+* from my notebook I could connect to http://192.168.31.129:3000/
 
 ## compose-fizzbuzz-generator (TODO)
 * Generates the data, calls the WEB API PUT method
