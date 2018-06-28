@@ -49,12 +49,13 @@ services:
 
   fizzbuzz-gen:
     container_name: "compose-fizzbuzz-gen"  
-    image: carlpaton/fizzbuzz:v1.0.0
+    image: carlpaton/fizzbuzz:v1.1.0
     environment:
       lowerBound: 1
       upperBound: 100
       fizzAt: 3
-      buzzAt: 5      
+      buzzAt: 5   
+      apiUrl: http://compose-api:3000         
     depends_on:
       - api
 

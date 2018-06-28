@@ -23,6 +23,15 @@ echo " ... wait for 5 seconds for api to start"
 sleep 5
 
 
+#### flyway.sh
+sudo docker-compose up -d baseline
+echo " ... wait for 5 seconds for flyway baseline"
+sleep 5
+sudo docker-compose up -d migrate
+echo " ... wait for 5 seconds for flyway migrate"
+sleep 5
+
+
 #### up.sh (runs attached)
 docker-compose up
 
