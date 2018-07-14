@@ -59,7 +59,14 @@ services:
     depends_on:
       - api
 
-  #FRONT ENDS TO QUERY DATA
+  angular-web:
+    container_name: "compose-angular-web"
+    build: ./angular-web
+    image: angular_web
+    ports:
+      - "8080:80"    
+    depends_on:
+      - api
 
 volumes:
     flyway_data:
