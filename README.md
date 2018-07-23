@@ -11,7 +11,7 @@ This script ./compose.sh  makes use of the following containers/steps:
 ## compose-db
 
 * postgres:9.6-alpine
-* from my notebook I could connect to http://192.168.31.129:54320/
+* from my notebook I could connect to http://172.29.5.197:54320/
 
 NOTE:
 
@@ -52,20 +52,20 @@ To create new layers it runs as 'docker-compose build --no-cache'
 
 Testing & Dev
 
-* from my notebook I could connect to http://192.168.31.129:3000/
+* from my notebook I could connect to http://172.29.5.197:3000/
 * https://postgrest.org/en/v5.0/api.html#insertions-updates
 
 ### fizzbuzz_event
 
 To insert:
 
-* POST : http://192.168.31.129:3000/fizzbuzz_event
+* POST : http://172.29.5.197:3000/fizzbuzz_event
 * HEADER : Content-Type=application/json
 * BODY: { "lower_bound": "1", "upper_bound": "1", "fizz_at": "3", "buzz_at": "5" }
 
 To read the record and get its ID
 
-* GET : http://192.168.31.129:3000/fizzbuzz_event?order=id.desc&limit=1
+* GET : http://172.29.5.197:3000/fizzbuzz_event?order=id.desc&limit=1
 
 Example response
 
@@ -73,7 +73,7 @@ Example response
 
 ### fizzbuzz_data
 
-* POST : http://192.168.31.129:3000/fizzbuzz_data
+* POST : http://172.29.5.197:3000/fizzbuzz_data
 * HEADER : Content-Type=application/json
 * BODY: 
 
@@ -89,10 +89,10 @@ Example response
 * https://github.com/charleyza/FizzBuzz
 * v1.1.0 has the API call support provided 'apiUrl' is set when calling docker compose
 
-## compose-web (IN PROGRESS)
+## compose-web
 
 * Angular Web Application to GET and display the data
+* GET : http://172.29.5.197:3000/fizzbuzz_data
 * Built following ~ https://www.w3schools.com/angular/angular_http.asp
 
-## compose-console-app (TODO)
-* Console application to GET and display the data
+From my notebook I could then see http://172.29.5.197:8080/

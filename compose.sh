@@ -2,6 +2,12 @@
 
 
 #### reset.sh
+#sudo docker container kill compose-angular-web
+#sudo docker rm compose-angular-web
+#sudo docker container kill compose-api
+#sudo docker rm compose-api
+#sudo docker container kill compose-db
+#sudo docker rm compose-db
 docker-compose rm
 docker rm $(docker ps -a -q)
 docker volume prune
