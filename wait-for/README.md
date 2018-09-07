@@ -1,6 +1,6 @@
 # Wait For
 
-This is an attempt to create and elegant solution to 'wait for' container services to become available. This is related to docker compose the startup order (depends_on)
+This is an attempt to create an elegant solution to 'wait for' container services to become available which is related to docker compose's startup order (depends_on)
 
 ## wait-for-db.sh
 
